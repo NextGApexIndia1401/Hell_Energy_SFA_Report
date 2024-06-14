@@ -1,0 +1,6 @@
+streamlit 
+pandas
+numpy
+pyodbc
+pyautogui
+plotly 
