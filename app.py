@@ -14,7 +14,6 @@ import datetime
 import plotly.express as px
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-from streamlit_extras.switch_page_button import switch_page
 import pyautogui
 
 
