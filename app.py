@@ -16,6 +16,8 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 import os
 import sys
+from dotenv import load_dotenv
+import logging
 
 if os.getenv('DISPLAY', '') == '':
     from unittest import mock
@@ -26,11 +28,24 @@ else:
     import mouseinfo
 
 # Database connection details
-server = '103.7.181.119'
-database = 'NEXTG_DWH_HELLENERGY'
-database_1 = 'SimplyAmplify'
-username = 'Yashs'
-password = 'yashshinde$0310$'
+# server = '103.7.181.119'
+# database = 'NEXTG_DWH_HELLENERGY'
+# database_1 = 'SimplyAmplify'
+# username = 'Yashs'
+# password = 'yashshinde$0310$'
+
+
+logging.basicConfig(level=logging.INFO)
+
+# Load environment variables from .env file if it exists
+load_dotenv()
+
+# Fetch environment variables
+server = os.getenv('DB_SERVER')
+database = os.getenv('DB_DATABASE')
+database_1 = os.getenv('DB_DATABASE_1')
+username = os.getenv('DB_USERNAME')
+password = os.getenv('DB_PASSWORD')
 
 stored_procedures = {
     "usp_web_master_callcycle": "Web Master Call Cycle",
@@ -61,7 +76,7 @@ def execute_stored_procedure(sp_name, from_date, to_date):
     Returns:
         pandas.DataFrame: A DataFrame containing the results of the stored procedure.
     """
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    conn = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     cursor = conn.cursor()
 
     # Prepare the payload
@@ -100,7 +115,7 @@ def execute_stored_procedure(sp_name, from_date, to_date):
 @st.cache(allow_output_mutation=True)
 def extract_table_data(server, database_1, username, password):
     # Establish connection to the database
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database_1+';UID='+username+';PWD='+password)
+    conn = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database_1};UID={username};PWD={password}')
     cursor = conn.cursor()
     current_month = datetime.datetime.now().month
     # Execute SQL query to fetch data from the table
