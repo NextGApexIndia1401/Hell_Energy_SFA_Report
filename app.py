@@ -55,7 +55,7 @@ stored_procedures = {
     "usp_web_report_order_fullfillment": "Web Report Order Fullfillment"
 }
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def execute_stored_procedure(sp_name, from_date, to_date):
     """
     Execute a stored procedure with a JSON payload and return the results as a pandas DataFrame.
@@ -112,7 +112,7 @@ def execute_stored_procedure(sp_name, from_date, to_date):
 
     return df
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def extract_table_data(server, database_1, username, password):
     # Establish connection to the database
     conn = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database_1};UID={username};PWD={password}')
