@@ -14,8 +14,16 @@ import datetime
 import plotly.express as px
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-import pyautogui
+import os
+import sys
 
+if os.getenv('DISPLAY', '') == '':
+    from unittest import mock
+    sys.modules['pyautogui'] = mock.Mock()
+    sys.modules['mouseinfo'] = mock.Mock()
+else:
+    import pyautogui
+    import mouseinfo
 
 # Database connection details
 server = '103.7.181.119'
